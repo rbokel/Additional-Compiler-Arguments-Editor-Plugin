@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<elements>
+    <form-element type="checkbox" id="-advanced-anti-aliasing" 		label="Advanced antialiasing" tooltip="enables advanced anti-aliasing for embedded fonts, which provides greater clarity for small fonts."/>     	
+    <form-element type="checkbox" id="-allow-source-path-overlap" 	label="Allow soure path overlap" tooltip="checks if a source-path entry is a subdirectory of another source-path entry. It helps make the package names of MXML components unambiguous."/>     	
+    <form-element type="string"   id="-context-root" 				label="ContextRoot" tooltip="path to replace {context.root} tokens for service channel endpoints"/>
+	<form-element type="checkbox" id="-debug" 						label="Debug" tooltip="generates a movie that is suitable for debugging" defaultValue="true"/>
+    <form-element type="checkbox" id="-flash-type" 					label="FlashType" tooltip="enables FlashType for embedded fonts, which provides greater clarity for small fonts."/>
+    <form-element type="checkbox" id="-incremental" 				label="Incremental" tooltip="enables incremental compilation."/>
+	<form-element type="checkbox" id="-isolate-styles" 				label="Isolate styles" tooltip="enables the compiled application or module to set styles that only affect itself and its children."/>
+	<form-element type="checkbox" id="-keep-all-type-selectors" 	label="Keep all type selectors" tooltip="disables the pruning of unused CSS type selectors."/>
+	<form-element type="checkbox" id="-keep-generated-actionscript" label="Keep generated ActionScript" tooltip="save temporary source files generated during MXML compilation."/>
+   	<form-element type="string"   id="-link-report" 				label="Link report" tooltip="Output a XML-formatted report of all definitions linked into the application."/>
+	<form-element type="string"   id="-load-externs" 				label="Load externs" tooltip="an XML file containing def, pre, and ext symbols to omit from linking when building a SWF."/>   
+    <form-element type="string"   id="-local-fonts-snapshot" 		label="Local font snapshot" tooltip="File containing system font data produced by flex2.tools.FontSnapshot." defaultValue="${flexlib}/winFonts.ser"/>
+    <form-element type="string"   id="-max-cached-fonts" 			label="Max cached fonts" tooltip="sets the maximum number of fonts to keep in the server cache.  The default value is 20." defaultValue="20"/>
+    <form-element type="string"   id="-max-glyphs-per-face" 		label="Max glyphs per face" tooltip="sets the maximum number of character glyph-outlines to keep in the server cache for each font face. The default value is 1000." defaultValue="1000"/>
+    <form-element type="string"   id="-minimum-supported-version" 	label="Minimum supported version" tooltip=""/>
+	<form-element type="checkbox" id="-omit-trace-statements" 		label="Omit trace statements" tooltip="toggle whether trace statements are omitted."/>
+	<form-element type="checkbox" id="-optimize" 					label="Optimize" tooltip="Enable post-link SWF optimization"/>
+    <form-element type="string"   id="-raw-metadata" 				label="Raw metadata" tooltip="XML text to store in the SWF metadata (overrides metadata.* configuration)"/>
+    <form-element type="string"   id="-resource-bundle-list" 		label="Resource bundle list" tooltip="prints a list of resource bundles to a file for input to the compc compiler to create a resource bundle SWC file."/>
+ 	<form-element type="checkbox" id="-report-invalid-styles-as-warnings" label="Report invalid styles" tooltip="enables reporting of invalid styles as warnings."/>
+    <form-element type="string"   id="-services" 					label="Services" tooltip="Path to Flex Data Services configuration file"/>
+ 	<form-element type="checkbox" id="-show-actionscript-warnings" 	label="Show ActionScript warnings" tooltip="runs the AS3 compiler in a mode that detects legal but potentially incorrect code" defaultValue="true"/>
+	<form-element type="checkbox" id="-show-binding-warnings" 		label="Show binding warnings" tooltip="toggle whether warnings generated from data binding code are displayed" defaultValue="true"/>
+    <form-element type="checkbox" id="-show-invalid-css-property-warnings" label="Show invalid css property warnings" tooltip="toggle whether invalid css property warnings are reported"/>
+    <form-element type="checkbox" id="-show-shadowed-device-font-warnings" label="Show shadowed device font warnings" tooltip="toggles whether warnings are displayed when an embedded font name shadows a device font name"/>
+    <form-element type="checkbox" id="-show-unused-type-selector-warnings" label="Show unused type selector warnings" tooltip="toggle whether warnings generated from unused CSS type selectors are displayed"/>
+    <form-element type="checkbox" id="-static-link-runtime-shared-libraries" label="Static link RSLs" tooltip="statically link the libraries specified by the -runtime-shared-libraries-path option."/>
+	<form-element type="string"   id="-tools-locale" 				label="Tools locale" tooltip="specifies the locale used by the compiler when reporting errors and warnings."/>
+    <form-element type="checkbox" id="-use-network" 				label="Use network" tooltip="toggle whether the SWF is flagged for access to network resources."/>
+    <form-element type="checkbox" id="-use-resource-bundle-metadata" label="Use resource bundle metadata" tooltip="determines whether resources bundles are included in the application."/>
+    <form-element type="checkbox" id="-verbose-stacktraces" 		label="Verbose stacktraces" tooltip="save callstack information to the SWF for debugging."/>
+    <form-element type="checkbox" id="-verbose-stacktraces" 		label="Verbose stacktraces" tooltip="save callstack information to the SWF for debugging."/>
+    <form-element type="checkbox" id="-version" 					label="Version" tooltip="display the build version of the program."/>
+    <form-element type="checkbox" id="-warn-array-tostring-changes" label="Warn array toString changes" tooltip="Array.toString() format has changed."/>
+    <form-element type="checkbox" id="-warn-assignment-within-conditional" label="Warn assignment within conditional" tooltip="Assignment within conditional." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-array-cast" 		label="Warn bad array cast" tooltip="Possibly invalid Array cast operation." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-bool-assignment" 	label="Warn bad bool assignment" tooltip="Non-Boolean value used where a Boolean value was expected." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-date-cast" 			label="Warn bad date cast" tooltip="Invalid Date cast operation." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-es3-type-method" 	label="Warn bad es3 type method"  tooltip="Unknown method." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-es3-type-prop" 		label="Warn bad es3 type prop" tooltip="Unknown property." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-nan-comparison" 	label="Warn bad nan comparison" tooltip="Illogical comparison with NaN. Any comparison operation involving NaN will evaluate to false because NaN != NaN." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-null-assignment" 	label="Warn bad null assignment" tooltip="Impossible assignment to null." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-null-comparison" 	label="Warn bad null comparison" tooltip="Illogical comparison with null." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-bad-undefined-comparison" label="Warn bad undefined comparison" tooltip="Illogical comparison with undefined.  Only untyped variables (or variables of type *) can be undefined." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-boolean-constructor-with-no-args" label="Warn bad undefined comparison" tooltip="Boolean() with no arguments returns false in ActionScript 3.0.  Boolean() returned undefined in ActionScript 2.0."/>
+    <form-element type="checkbox" id="-warn-changes-in-resolve" 	label="Warn changes in resolve" tooltip="__resolve is no longer supported."/>
+    <form-element type="checkbox" id="-warn-class-is-sealed" 		label="Warn class is sealed" tooltip="Class is sealed.  It cannot have members added to it dynamically." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-const-not-initialized" 	label="Warn const not initialized" tooltip="Constant not initialized." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-constructor-returns-value" label="Warn constructor returns value" tooltip="Function used in new expression returns a value.  Result will be what the function returns, rather than a new instance of that function."/>
+    <form-element type="checkbox" id="-warn-deprecated-event-handler-error" label="Warn deprecated event handler error" tooltip="EventHandler was not added as a listener."/>
+    <form-element type="checkbox" id="-warn-deprecated-function-error" label="Warn deprecated function error" tooltip="Unsupported ActionScript 2.0 function." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-deprecated-property-error" label="Warn deprecated property error" tooltip="Unsupported ActionScript 2.0 property." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-duplicate-argument-names" label="Warn duplicate argument names" tooltip="More than one argument by the same name." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-duplicate-variable-def" label="Warn duplicate variable def" tooltip="Duplicate variable definition " defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-for-var-in-changes" 	label="Warn for var in changes" tooltip="ActionScript 3.0 iterates over an object's properties within a &amp;quot;for x in target&amp;quot; statement in random order."/>
+    <form-element type="checkbox" id="-warn-import-hides-class" 	label="Warn import hides class" tooltip="Importing a package by the same name as the current class will hide that class identifier in this scope." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-instance-of-changes" 	label="Warn import hides class" tooltip="Use of the instanceof operator." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-internal-error" 		label="Warn import hides class" tooltip="Internal error in compiler." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-level-not-supported" 	label="Warn import hides class" tooltip="_level is no longer supported. For more information, see the flash.display package." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-missing-namespace-decl" label="Warn import hides class" tooltip="Missing namespace declaration (e.g. variable is not defined to be public, private, etc.)." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-negative-uint-literal" 	label="Warn import hides class" tooltip="Negative value will become a large positive value when assigned to a uint data type." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-no-constructor" 		label="Warn no constructor" tooltip="Missing constructor."/>
+    <form-element type="checkbox" id="-warn-no-explicit-super-call-in-constructor" label="Warn no explicit super call in constructor" tooltip="The super() statement was not called within the constructor."/>
+    <form-element type="checkbox" id="-warn-no-type-decl" 			label="Warn no type decl" tooltip="Missing type declaration." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-number-from-string-changes" label="Warn number from string changes" tooltip="In ActionScript 3.0, white space is ignored and '' returns 0. Number() returns NaN in ActionScript 2.0 when the parameter is '' or contains white space."/>
+    <form-element type="checkbox" id="-warn-scoping-change-in-this" label="Warn scoping change in this" tooltip="Change in scoping for the this keyword.  Class methods extracted from an instance of a class will always resolve this back to that instance.  In ActionScript 2.0 this is looked up dynamically based on where the method is invoked from."/>
+    <form-element type="checkbox" id="-warn-slow-text-field-addition" label="Warn slow text field addition" tooltip="Inefficient use of += on a TextField." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-unlikely-function-value" label="Warn unlikely function value" tooltip="Possible missing parentheses." defaultValue="true"/>
+    <form-element type="checkbox" id="-warn-xml-class-has-changed" 	label="Warn xml class has changed" tooltip="Possible usage of the ActionScript 2.0 XML class."/>
+</elements>
