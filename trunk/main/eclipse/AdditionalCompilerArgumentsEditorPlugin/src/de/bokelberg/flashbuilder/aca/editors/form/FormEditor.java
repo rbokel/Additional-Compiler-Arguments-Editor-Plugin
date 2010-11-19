@@ -80,7 +80,8 @@ public class FormEditor {
 				FormElement element = createFormElement(nodes.item(i));
 				result[i] = element;
 			} catch (Exception e) {
-				getLog().error("Error creating FormElement from node <" + i + ">", e);
+				log().error("Error creating FormElement from node <" + i + ">",
+						e);
 			}
 		}
 		return result;
@@ -175,20 +176,29 @@ public class FormEditor {
 			private String oldValue;
 
 			public void focusLost(FocusEvent event) {
-				Text widget = (Text) event.widget;
-				String newValue = widget.getText();
-				if (!oldValue.equals(newValue)) {
-					FormElement element = (FormElement) widget.getData();
-					model.updateString(element.id, newValue);
-					notifyUpdate();
+				try {
+					Text widget = (Text) event.widget;
+					String newValue = widget.getText();
+					if (!oldValue.equals(newValue)) {
+						FormElement element = (FormElement) widget.getData();
+						model.updateString(element.id, newValue);
+						notifyUpdate();
+					}
+				} catch (Exception e) {
+					log().error(e.getMessage(), e);
 				}
+
 			}
 
 			public void focusGained(FocusEvent event) {
-				Text widget = (Text) event.widget;
-				oldValue = widget.getText();
-				if (oldValue == null) {
-					oldValue = "";
+				try {
+					Text widget = (Text) event.widget;
+					oldValue = widget.getText();
+					if (oldValue == null) {
+						oldValue = "";
+					}
+				} catch (Exception e) {
+					log().error(e.getMessage(), e);
 				}
 			}
 		});
@@ -205,16 +215,21 @@ public class FormEditor {
 		idToFormElement.put(element.id, checkbox);
 		checkbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				Button checkbox = (Button) event.widget;
-				// debug("widgetSelected <" + checkbox + ">");
-				FormElement element = (FormElement) checkbox.getData();
-				// debug("widgetSelected <" + element.id + ">");
-				model.updateBoolean(element.id, checkbox.getSelection(),
-						element.defaultValue != null
-								&& element.defaultValue.equals("true"));
-				// debug("widgetSelected <" + model.getString() + ">");
-				notifyUpdate();
-				// debug("widgetSelected end");
+				try {
+					Button checkbox = (Button) event.widget;
+					// log().debug("widgetSelected <" + checkbox + ">");
+					FormElement element = (FormElement) checkbox.getData();
+					// log().debug("widgetSelected <" + element.id + ">");
+					model.updateBoolean(element.id, checkbox.getSelection(),
+							element.defaultValue != null
+									&& element.defaultValue.equals("true"));
+					// log().debug("widgetSelected <" + model.getString() +
+					// ">");
+					notifyUpdate();
+					// log().debug("widgetSelected end");
+				} catch (Exception e) {
+					log().error(e.getMessage(), e);
+				}
 			}
 		});
 	}
@@ -236,11 +251,11 @@ public class FormEditor {
 	private void updateFormElements() {
 		for (Argument arg : model.arguments) {
 			String id = arg.name;
-			debug("updateFormElements <" + id + ">");
+			log().debug("updateFormElements <" + id + ">");
 			FormElement element = findElement(id);
 			if (element == null) {
 				// ignore
-				debug("element not found, id <" + id + ">");
+				log().debug("element not found, id <" + id + ">");
 			} else {
 				if (element.type.equals("checkbox")) {
 					updateCheckBox(arg, id);
@@ -277,7 +292,7 @@ public class FormEditor {
 	}
 
 	private void notifyUpdate() {
-		debug("notifyUpdate");
+		log().debug("notifyUpdate");
 		formChangeHandler.handleFormChange(getFormSettings());
 	}
 
@@ -289,24 +304,19 @@ public class FormEditor {
 	 */
 	private String getFormSettings() {
 		String result = model.getString();
-		debug("getFormSettings <" + result + ">");
+		log().debug("getFormSettings <" + result + ">");
 		return result;
 	}
 
 	private Logger log = null;
 
-	private Logger getLog()
-	{
+	private Logger log() {
 		if (log == null) {
 			log = Logger.getLogger(this.getClass());
 		}
 		return log;
 	}
 
-	private void debug(String msg) {
-		getLog().debug(msg);
-	}
-	
 	public void dispose() {
 
 	}

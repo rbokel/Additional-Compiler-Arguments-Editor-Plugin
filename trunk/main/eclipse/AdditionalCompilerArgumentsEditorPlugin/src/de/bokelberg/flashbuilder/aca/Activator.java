@@ -6,6 +6,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
+ * TODO Use Forms (like PDE)
+ * TODO Implement more complex content types
+ * TODO Add unit tests to verify full circle of data 
+ */
+
+/**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
