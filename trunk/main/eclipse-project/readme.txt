@@ -1,1 +1,0 @@
-this is going to be removed soon and will be replaced by a proper mvn project, hopefully ;)
