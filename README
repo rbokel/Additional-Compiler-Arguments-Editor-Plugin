@@ -1,0 +1,1 @@
+2010/11/19 Bear with me guys. I just committed the very first, vey raw vesion of this plugin. It is just a copy of my eclipse project really. As a next step i want to mavenize it, so the library can go away. At the moment there is no binary available. However, you could create your own, if you know how to work with PDE in Eclipse. 
