@@ -6,10 +6,11 @@ The current version of the plugin supports most of the on/off and simple string 
 with multiple strings and += options will be implemented soon. 
 
 History 
-2010/11/19 Added a file INSTALL with some notes about the installation. Added a description of the 
+-------
+`2010/11/19` Added a file INSTALL with some notes about the installation. Added a description of the 
 project to the README
 
-2010/11/19 The first distribution of the plugin
+`2010/11/19` The first distribution of the plugin
 I had a quick look around and it seems like it is not that easy to mavenize the 
 project. Even the Groovy Eclipse plugin is not mavenized, even though they are the same guys 
 that developed Maven. They simply commit the complete Eclipse projects including the libraries 
@@ -22,7 +23,7 @@ tab contains a simple XML editor. It is helpful to check what the file looks lik
 tab contains the form editor. Click around a bit und go back and forth between form and xml view
 to check if it works ok. 
 
-2010/11/18 My first github project
+`2010/11/18` My first github project
 Bear with me guys. I just committed the very first, vey raw version of this plugin. 
 It is just a copy of my eclipse project really. As a next step i want to mavenize it, so the 
 library can go away. At the moment there is no binary available. However, you could create 
