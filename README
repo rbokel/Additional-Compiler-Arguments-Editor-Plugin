@@ -1,3 +1,14 @@
+The project contains a Eclipse plugin which allows you to edit the additional compiler arguments 
+of FlashBuilder. It uses a form based editor which shows all the available options and allows you 
+to change them easily. No longer you need to search for the name of a option or the syntax. 
+
+The current version of the plugin supports most of the on/off and simple string options. Options
+with multiple strings and += options will be implemented soon. 
+
+History 
+2010/11/19 Added a file INSTALL with some notes about the installation. Added a description of the 
+project to the README
+
 2010/11/19 The first distribution of the plugin
 I had a quick look around and it seems like it is not that easy to mavenize the 
 project. Even the Groovy Eclipse plugin is not mavenized, even though they are the same guys 
