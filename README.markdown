@@ -5,11 +5,6 @@ to change them easily. No longer you need to search for the name of a option or 
 The current version of the plugin supports most of the on/off and simple string options. Options
 with multiple strings and += options will be implemented soon. 
 
-A note on security
-------------------
-Since this is a public site, everybody could upload his own, hacked version of the plugin. So please 
-make sure, that the version you are about to download, has been uploaded by me (rbokel)
-
 History 
 -------
 `2010/11/19` Added a file INSTALL with some notes about the installation. Added a description of the 
