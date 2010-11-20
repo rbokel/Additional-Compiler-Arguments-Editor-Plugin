@@ -2,7 +2,7 @@ The project contains a Eclipse plugin which allows you to edit the additional co
 of FlashBuilder. It uses a form based editor which shows all the available options and allows you 
 to change them easily. No longer you need to search for the name of a option or the syntax. 
 
-Update site: https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/site.xml
+Update site: update site | https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/site.xml
 
 The current version of the plugin supports most of the on/off and simple string options. Options
 with multiple strings and += options will be implemented soon. 
