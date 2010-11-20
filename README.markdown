@@ -8,7 +8,7 @@ with multiple strings and += options will be implemented soon.
 A note on security
 ------------------
 Since this is a public site, everybody could upload his own, hacked version of the plugin. So please 
-make sure, that the version has been uploaded by me (rbokel)
+make sure, that the version you are about to download, has been uploaded by me (rbokel)
 
 History 
 -------
