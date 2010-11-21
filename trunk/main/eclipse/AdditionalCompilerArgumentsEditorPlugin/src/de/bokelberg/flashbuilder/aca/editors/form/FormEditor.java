@@ -35,6 +35,8 @@ public class FormEditor {
 
 	final private ArgumentsModel model = new ArgumentsModel();
 
+	private DefaultValues defaultValues = null;
+
 	private FormChangeHandler formChangeHandler = null;
 
 	public FormEditor(Composite container, URL elementsConfiguration) {
@@ -69,7 +71,22 @@ public class FormEditor {
 	private FormElement[] loadElementsConfiguration(URL elementsConfiguration) {
 		Document doc = loadXMLDocument(elementsConfiguration);
 		NodeList elementNodes = getElementNodes(doc);
+		defaultValues = getDefaultValues(elementNodes);
 		return createFormElements(elementNodes);
+	}
+
+	private DefaultValues getDefaultValues(NodeList elementNodes) {
+		DefaultValues result = new DefaultValues();
+		for (int i = 0; i < elementNodes.getLength(); i++) {
+			Node node = elementNodes.item(i);
+			String id = getAttribute(node, "id");
+			Object defaultValue = getOptionalAttribute(node, "defaultValue",
+					null);
+			if (defaultValue != null) {
+				result.addDefaultValue(id, defaultValue);
+			}
+		}
+		return result;
 	}
 
 	private FormElement[] createFormElements(NodeList nodes) {
@@ -220,9 +237,7 @@ public class FormEditor {
 					// log().debug("widgetSelected <" + checkbox + ">");
 					FormElement element = (FormElement) checkbox.getData();
 					// log().debug("widgetSelected <" + element.id + ">");
-					model.updateBoolean(element.id, checkbox.getSelection(),
-							element.defaultValue != null
-									&& element.defaultValue.equals("true"));
+					model.updateBoolean(element.id, checkbox.getSelection());
 					// log().debug("widgetSelected <" + model.getString() +
 					// ">");
 					notifyUpdate();
@@ -303,18 +318,19 @@ public class FormEditor {
 	 * @return
 	 */
 	private String getFormSettings() {
-		String result = model.getString();
+		ValueIsDifferentFromDefaultValuePredicate predicate = new ValueIsDifferentFromDefaultValuePredicate(defaultValues);
+		String result = new FilteringArgumentsModelStringRenderer(model, predicate).render();
 		log().debug("getFormSettings <" + result + ">");
 		return result;
 	}
 
-	private Logger log = null;
+	private Logger _log = null;
 
 	private Logger log() {
-		if (log == null) {
-			log = Logger.getLogger(this.getClass());
+		if (_log == null) {
+			_log = Logger.getLogger(this.getClass());
 		}
-		return log;
+		return _log;
 	}
 
 	public void dispose() {

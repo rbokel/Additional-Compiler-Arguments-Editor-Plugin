@@ -13,65 +13,77 @@ public class BooleanPropertiesTest {
 
 	private ArgumentsParser parser;
 	private ArgumentsModel model;
+	private ArgumentsModelStringRenderer renderer;
+	private ValueIsDifferentFromDefaultValuePredicate predicate;
+	private DefaultValues defaultValues;
 
 	@Before
 	public void setUp() {
 		model = new ArgumentsModel();
 		parser = new ArgumentsParser(model);
+		
+		defaultValues = new DefaultValues();
+		predicate = new ValueIsDifferentFromDefaultValuePredicate(defaultValues);
+		renderer = new FilteringArgumentsModelStringRenderer(model, predicate);
 	}
 
 	@Test
 	public void givenNoArgumentsAreSet_thenResultShouldBeEmpty() {
 		parser.parse("");
-		String result = model.getString();
+		String result = renderer.render();
 		assertEquals("", result);
 	}
 
 	@Test
 	public void givenAOptionWithDefaultValueFalse_whenSelectingThisOption_thenResultShouldContainIt() {
 		parser.parse("");
-		model.updateBoolean("test", true, false);		
-		String result = model.getString();
-		assertEquals("test=true", result);
+		model.updateBoolean("-test", true);		
+		String result = renderer.render();
+		assertEquals("-test=true", result);
 	}
 
 	@Test
 	public void givenAOptionWithDefaultValueFalse_whenDeselectingThisOption_thenResultShouldBeEmpty() {
 		parser.parse("");
-		model.updateBoolean("test", true, false);
-		model.updateBoolean("test", false, false);
-		String result = model.getString();
+		defaultValues.addDefaultValue("-test", false);
+		model.updateBoolean("-test", true);
+		model.updateBoolean("-test", false);
+		String result = renderer.render();
 		assertEquals("", result);
 	}
 	
 	@Test
 	public void givenAOptionWithDefaultValueFalse_whenOptionIsFalseInInput_thenResultShouldBeEmpty() {
-		parser.parse("test=false");
-		String result = model.getString();
+		parser.parse("-test=false");
+		defaultValues.addDefaultValue("-test", false);
+		String result = renderer.render();
 		assertEquals("", result);
 	}
 
 	@Test
 	public void givenAOptionWithDefaultValueTrue_whenUnselectingThisOption_thenResultShouldContainIt() {
 		parser.parse("");
-		model.updateBoolean("test", false, true);		
-		String result = model.getString();
-		assertEquals("test=false", result);
+		defaultValues.addDefaultValue("-test", true);
+		model.updateBoolean("-test", false);		
+		String result = renderer.render();
+		assertEquals("-test=false", result);
 	}
 	
 	@Test
 	public void givenAOptionWithDefaultValueTrue_whenSelectingThisOption_thenResultShouldContainIt() {
 		parser.parse("");
-		model.updateBoolean("test", false, true);		
-		model.updateBoolean("test", true, true);		
-		String result = model.getString();
+		defaultValues.addDefaultValue("-test", true);
+		model.updateBoolean("-test", false);		
+		model.updateBoolean("-test", true);		
+		String result = renderer.render();
 		assertEquals("", result);
 	}
 	
 	@Test
 	public void givenAOptionWithDefaultValueTrue_whenOptionIsTrueInInput_thenResultShouldBeEmpty() {
-		parser.parse("test=true");
-		String result = model.getString();
+		parser.parse("-test=true");
+		defaultValues.addDefaultValue("-test", true);
+		String result = renderer.render();
 		assertEquals("", result);
 	}
 	

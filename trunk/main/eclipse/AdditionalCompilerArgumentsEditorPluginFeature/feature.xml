@@ -18,7 +18,7 @@
    </license>
 
    <url>
-      <update label="AdditionalCompilerArgumentsEditorPluginUpdateSite" url="https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/tree/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite"/>
+      <update label="AdditionalCompilerArgumentsEditorPluginUpdateSite" url="https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/tree/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite"/>
    </url>
 
    <plugin

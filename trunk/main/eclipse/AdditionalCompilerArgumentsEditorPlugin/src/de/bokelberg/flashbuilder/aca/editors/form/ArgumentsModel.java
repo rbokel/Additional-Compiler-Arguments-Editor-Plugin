@@ -5,42 +5,34 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import de.bokelberg.flashbuilder.aca.utils.StringUtil;
+
 
 public class ArgumentsModel {
 
 	public List<Argument> arguments = new ArrayList<Argument>();
 
 	
-	public void updateBoolean(String id, boolean value, boolean defaultValue) {
-		if (value != defaultValue) {
-			Argument arg = addArg(id);
-			arg.setValue(value + "");
-			arg.assignmentOperator="=";
-		} else {
-			removeArg(id);
-		}
+	public void updateBoolean(String id, boolean value, String assignmentOperator ) {
+		debug("updateBoolean <" + id + "><" + assignmentOperator + "><" + value + ">");
+		Argument arg = addArg(id);
+		arg.setValue(value + "");
+		arg.assignmentOperator=assignmentOperator;
 	}
 	
-	public void updateString(String id, String text) {
-		updateString( id, text, "=");
+	public void updateBoolean(String id, boolean value) {
+		updateBoolean(id, value, "=");
+	}
+	
+	public void updateString(String id, String value, String assignmentOperator) {
+		debug("updateString <" + id + "><" + assignmentOperator + "><" + value + ">");
+		Argument arg = addArg(id);
+		arg.assignmentOperator = assignmentOperator;
+		arg.setValue( StringUtil.removeOptionalQuotes( value ));
 	}
 
-	public void updateString(String id, String text, String assignmentOperator) {
-		debug("updateString <" + id + "><" + assignmentOperator + "><" + text + ">");
-		if( text == null || text.trim().length() == 0 )
-		{
-			removeArg( id );
-		}
-		else 
-		{
-			Argument arg = addArg(id);
-			arg.assignmentOperator = assignmentOperator;
-			if( text.startsWith("\"") && text.endsWith("\""))
-			{
-				text = text.substring(0,text.length()-1);
-			}
-			arg.setValue( text );
-		}
+	public void updateString(String id, String text) {
+		updateString( id, text, "=");
 	}
 
 
@@ -56,6 +48,15 @@ public class ArgumentsModel {
 		return arg;
 	}
 
+
+	public void clear() {
+		arguments.clear();
+	}
+	
+	public List<Argument> getArguments() {
+		return arguments;
+	}
+
 	private Argument findArg(String id) {
 		for (Argument arg : arguments) {
 			if (arg != null && arg.name != null && arg.name.equals(id)) {
@@ -65,67 +66,6 @@ public class ArgumentsModel {
 		return null;
 	}
 
-	private void removeArg(String id) {
-		Argument arg = findArg(id);
-		if (arg != null) {
-			arguments.remove(arg);
-		}
-	}
-
-	/**
-	 * Create a string which can be used as a value for the
-	 * additionalCompilerArgumentsAttribute in .actionScriptProperties
-	 * 
-	 * @return
-	 */
-	public String getString() {
-		String prefix = "";
-		StringBuffer buf = new StringBuffer();
-		for (Argument arg : arguments) {
-			buf.append(prefix);
-			buf.append(argToString(arg));
-			prefix = " ";
-		}
-		return buf.toString();
-	}
-
-	private String argToString(Argument arg) {
-		String prefix;
-		StringBuffer buf = new StringBuffer( arg.name );
-		if( arg.assignmentOperator != null )
-		{
-			buf.append( arg.assignmentOperator );
-			prefix = "";
-		}
-		else
-		{
-			prefix = " ";
-		}
-		if( arg.values != null && arg.values.size() >= 1)
-		{
-			for( String value : arg.values )
-			{
-				buf.append( prefix );
-				if( value.contains(" "))
-				{
-					buf.append("\"");
-					buf.append( value );
-					buf.append("\"");
-				}
-				else
-				{
-					buf.append( value );
-				}
-				prefix = " ";
-			}
-		}
-		return buf.toString();
-	}
-
-	public void clear() {
-		arguments.clear();
-	}
-	
 	private Logger log = null;
 	
 	private void debug(String msg) {
