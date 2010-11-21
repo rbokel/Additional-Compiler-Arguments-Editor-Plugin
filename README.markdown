@@ -11,6 +11,11 @@ with multiple strings and += options will be implemented soon.
 
 History 
 -------
+`2010/11/21` Factored out the logic to filter the string for additional compiler arguments. 
+Much cleaner now. A renderer is used to render the model to a string. The renderer uses a 
+predicate to filter the items, which are included into that string. The model does not know 
+anything about this. Via the predicate we are able to switch the logic easily.   
+
 `2010/11/20` Added a update site
 
 `2010/11/19` Added a file INSTALL with some notes about the installation. Added a description of the 
