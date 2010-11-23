@@ -1,16 +1,24 @@
 The project contains a Eclipse plugin which allows you to edit the additional compiler arguments 
 of FlashBuilder. It uses a form based editor which shows all the available options and allows you 
-to change them easily. No longer you need to search for the name of a option or the syntax. 
+to change them easily. No longer you have to search for the name of a option or the syntax.s 
 
 Update site: [Right-click this link and copy the url to the Eclipse update mamanger window.](https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/site.xml)
 
-The current version of the plugin supports most of the on/off and simple string options. Options
-with multiple strings and += options will be implemented soon. 
+The current version of the plugin supports most of the on/off and simple string options. 
 
+
+Todo
+-----
+1. Implement more complex content types, multi strings etc. 
+2. Implement export to additional_compiler_arguments.xml 
 
 
 History 
 -------
+`2010/11/23` Switched to Eclipse forms toolkit. Added Signal/Slots for event handling. Factored 
+out some functionality of the FormEditor to other classes, eg. WidgetLocator, FormElementConfig, 
+FormElementList.   
+
 `2010/11/23` Added a first implementation of a multi string property. Multiple strings can 
 be added as a comma separated list. The append checkbox switches the assignment operator from 
 = to +=. The text input needs to be replaced by a real component. I'm thinking about something 
