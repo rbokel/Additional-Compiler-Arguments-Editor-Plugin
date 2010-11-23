@@ -11,6 +11,13 @@ with multiple strings and += options will be implemented soon.
 
 History 
 -------
+`2010/11/23` Added a first implementation of a multi string property. Multiple strings can 
+be added as a comma separated list. The append checkbox switches the assignment operator from 
+= to +=. The text input needs to be replaced by a real component. I'm thinking about something 
+like the build path component in JDT. A listbox which shows all the available values, 
+some buttons on the rhs, eg. edit, remove, move up, move down.   
+Also i fixed the title of the editor. It now shows the filename.
+
 `2010/11/21` Factored out the logic to filter the string for additional compiler arguments. 
 Much cleaner now. A renderer is used to render the model to a string. The renderer uses a 
 predicate to filter the items, which are included into that string. The model does not know 
