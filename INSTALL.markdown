@@ -1,15 +1,18 @@
 Installation 
 
-Automatic installation via the Eclipse software manager: 
+Automatic installation via the Eclipse update
+--------------------------------------------- 
 Update site: https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/site.xml
 
 Manual installation
+-------------------
 Download the latest version of the plugin. You can find it here: https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/tree/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/plugins/ 
 Close your Eclipse
 Drop the file into the plugin directory of your Eclipse installation 
 Start Eclipse 
 
 Usage 
+-----
 If you doubleclick a .actionScriptProperties file, it should open in the new editor. 
 If not, you might have registered another editor to this file. Right click the 
 .actionScriptProperties file and use "open with" ActionScriptPropertiesEditor. 
