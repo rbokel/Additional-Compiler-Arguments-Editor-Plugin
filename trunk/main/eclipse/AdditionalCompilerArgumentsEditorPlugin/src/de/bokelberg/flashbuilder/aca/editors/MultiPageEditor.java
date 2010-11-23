@@ -24,9 +24,11 @@ import org.w3c.dom.Node;
 
 import de.bokelberg.flashbuilder.aca.Activator;
 import de.bokelberg.flashbuilder.aca.Configuration;
-import de.bokelberg.flashbuilder.aca.editors.form.FormChangeHandler;
 import de.bokelberg.flashbuilder.aca.editors.form.FormEditor;
+import de.bokelberg.flashbuilder.aca.editors.form.FormEditorNew;
+import de.bokelberg.flashbuilder.aca.editors.form.FormView;
 import de.bokelberg.flashbuilder.aca.editors.xml.XMLEditor;
+import de.bokelberg.flashbuilder.aca.signals.Slot;
 import de.bokelberg.flashbuilder.aca.utils.XMLUtil;
 
 /**
@@ -45,7 +47,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	private XMLEditor xmlEditor;
 
 	/** The form editor used in page 1. */
-	private FormEditor formEditor;
+	private FormEditorNew formEditor;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -75,10 +77,11 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 */
 	private void createPage1() {
 		URL elementsConfiguration = getElementsConfiguration();
-		formEditor = new FormEditor(getContainer(), elementsConfiguration);
-		formEditor.setFormChangeHandler(new FormChangeHandler() {
-
-			public void handleFormChange(String newContent) {
+		formEditor = new FormEditorNew( elementsConfiguration);
+		formEditor.createPartControl(getContainer());
+		formEditor.formChangeSignal.addSlot(new Slot<String>() {
+			
+			public void onSignal(String newContent) {
 				debug("handleFormChange");
 
 				try {
@@ -194,6 +197,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 
 	private void updateXMLEditor() {
 		// TODO do we need it?
+		// when we change the form, the xml is immediately updated
+		// when we change the xml, ths xml is updated as well and as 
+		// soon as we switch to the form view, the form is updated from 
+		// the editor content
+		// are there any other usecases that would make it necessary to 
+		// update the xml editor?
 	}
 
 	private void updateFormEditor() {

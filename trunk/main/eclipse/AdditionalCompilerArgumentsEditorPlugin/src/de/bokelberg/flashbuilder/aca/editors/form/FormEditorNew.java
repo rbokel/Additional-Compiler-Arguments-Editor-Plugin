@@ -4,7 +4,6 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -18,15 +17,17 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.part.ViewPart;
 import org.w3c.dom.DOMException;
 
 import de.bokelberg.flashbuilder.aca.signals.Signal;
 
-public class FormEditor {
+public class FormEditorNew extends ViewPart 
+{
 
 	private static final int FORM_WIDTH = 600;
-
-	final private Composite mainView;
 
 	final private ArgumentsModel model = new ArgumentsModel();
 
@@ -36,16 +37,17 @@ public class FormEditor {
 
 	public Signal<String> formChangeSignal = new Signal<String>();
 
-	public FormEditor(Composite container, URL elementsConfiguration) {
-		if (container == null) {
-			throw new RuntimeException("ArgumentError: container is null");
-		}
-		if (elementsConfiguration == null) {
-			throw new RuntimeException("ArgumentError: url is null");
-		}
+	
+	private Composite mainView;
+	private FormToolkit toolkit;
 
+	
+	public FormEditorNew(URL elementsConfiguration) {
+		if (elementsConfiguration == null) {
+			throw new RuntimeException("ArgumentError: elementsConfiguration is null");
+		}
+		
 		config.loadElementsConfiguration(elementsConfiguration);
-		mainView = createView(container);
 	}
 
 	public Composite getView() {
@@ -70,46 +72,33 @@ public class FormEditor {
 		}
 	}
 
-	private Composite createView(Composite container) {
-		ScrolledComposite scrollableContainer = createScrollableContainer(container);
-		Composite form = createForm(scrollableContainer);
-		scrollableContainer.setContent(form);
-		int asMuchHeightAsItNeeds = SWT.DEFAULT;
-		form.setSize(form.computeSize(FORM_WIDTH, asMuchHeightAsItNeeds));
-		return scrollableContainer;
+	private Composite createView(Composite parent) {
+		ScrolledForm scrolledForm = createScrollableContainer(parent);
+		createForm(scrolledForm.getBody());
+		return scrolledForm;
 	}
 
-	private ScrolledComposite createScrollableContainer(Composite container) {
-		ScrolledComposite result = new ScrolledComposite(container,
-				SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	private ScrolledForm createScrollableContainer(Composite container) {
+		ScrolledForm result = toolkit.createScrolledForm(container);
 		return result;
 	}
 
-	private Composite createForm(Composite container) {
-		Composite form = createFormContainer(container);
-
+	private void createForm(Composite container) {
+		container.setLayout(new GridLayout(3, false));
 		for (FormElement element : config.elementsIterator()) {
 
 			if (element.type.equals("checkbox")) {
-				addOnOffInput(form, element);
+				addOnOffInput(container, element);
 			} else if (element.type.equals("string")) {
-				addSingleStringInput(form, element);
+				addSingleStringInput(container, element);
 			} else if (element.type.equals("strings")) {
-				addMultipleStringsInput(form, element);
+				addMultipleStringsInput(container, element);
 			} else {
 				log().error(
 						"Unexpected type of form element <" + element.type
 								+ ">");
 			}
 		}
-		return form;
-	}
-
-	private Composite createFormContainer(Composite container) {
-		Composite composite = new Composite(container, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
-		composite.setLayout(layout);
-		return composite;
 	}
 
 	private void addOnOffInput(Composite composite, FormElement element) {
@@ -124,26 +113,29 @@ public class FormEditor {
 
 	private void addMultipleStringsInput(Composite composite,
 			FormElement element) {
-		Composite sub = new Composite(composite, SWT.NONE);
-		sub.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		//Composite sub = toolkit.createComposite(composite, SWT.BORDER);
+		//sub.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		//sub.setLayout(new GridLayout());
 
-		FormLayout layout = new FormLayout();
-		sub.setLayout(layout);
-
-		addLabel(sub, element);
-		addAppendCheckbox(sub, element);
-
+		addLabel(composite, element, new GridData());
+		addAppendCheckbox(composite, element);
 		addText(composite, element);
 	}
 
 	private void addLabel(Composite composite, FormElement element) {
-		Label label = new Label(composite, SWT.NULL);
-		label.setText(element.label);
-		label.setToolTipText(element.tooltip);
+		GridData layoutData = new GridData();
+		layoutData.horizontalSpan = 2;
+		addLabel(composite, element, layoutData);
 	}
 
+	private void addLabel(Composite composite, FormElement element, GridData layoutData) {
+		Label label = toolkit.createLabel(composite, element.label );
+		label.setLayoutData(layoutData);
+		label.setToolTipText(element.tooltip);
+	}
+	
 	private void addCheckbox(Composite composite, FormElement element) {
-		Button checkboxWidget = new Button(composite, SWT.CHECK);
+		Button checkboxWidget = toolkit.createButton(composite, "", SWT.CHECK);
 		checkboxWidget.setData(element);
 		checkboxWidget.setSelection(config.hasDefaultValue(element.id)
 				&& config.getDefaultValue(element.id).equals("true"));
@@ -170,14 +162,16 @@ public class FormEditor {
 	}
 
 	private void addAppendCheckbox(Composite composite, FormElement element) {
-		Button checkboxWidget = new Button(composite, SWT.CHECK);
-		checkboxWidget.setText("append");
+		Button checkboxWidget = toolkit.createButton(composite, "append", SWT.CHECK);
 		checkboxWidget.setData(element);
-		checkboxWidget
-				.setToolTipText("values are appended to existing values which might have ben loaded earlier.");
-		FormData formData = new FormData();
-		formData.right = new FormAttachment(100, 5);
-		checkboxWidget.setLayoutData(formData);
+		checkboxWidget.setToolTipText("values are appended to values which might have been loaded before.");
+		//FormData formData = new FormData();
+		//formData.right = new FormAttachment(100, 5);
+		//checkboxWidget.setLayoutData(formData);
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.END;
+		checkboxWidget.setLayoutData(gridData);
+		
 		widgetLocator.addSubWidget(element.id, "append", checkboxWidget);
 		checkboxWidget.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -199,12 +193,10 @@ public class FormEditor {
 	}
 
 	private void addText(Composite composite, FormElement element) {
-		Text textWidget = new Text(composite, SWT.BORDER);
+		String text = config.hasDefaultValue(element.id) ? config.getDefaultValue(element.id) + "" : "";
+		Text textWidget = toolkit.createText(composite, text, SWT.BORDER);
 		textWidget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		textWidget.setData(element);
-		if (config.hasDefaultValue(element.id)) {
-			textWidget.setText(config.getDefaultValue(element.id) + "");
-		}
 		widgetLocator.addWidget(element.id, textWidget);
 		textWidget.addFocusListener(new FocusListener() {
 
@@ -321,7 +313,22 @@ public class FormEditor {
 	}
 
 	public void dispose() {
+		toolkit.dispose();
+		super.dispose();
+	}
 
+	@Override
+	public void createPartControl(Composite container) {
+		if (container == null) {
+			throw new RuntimeException("ArgumentError: container is null");
+		}
+		toolkit = new FormToolkit(container.getDisplay());
+		mainView = createView(container);
+	}
+
+	@Override
+	public void setFocus() {
+		mainView.setFocus();
 	}
 
 }

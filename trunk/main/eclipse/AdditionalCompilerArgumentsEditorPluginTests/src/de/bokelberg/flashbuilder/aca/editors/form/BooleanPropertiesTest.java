@@ -1,6 +1,7 @@
 package de.bokelberg.flashbuilder.aca.editors.form;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class BooleanPropertiesTest {
 	private ArgumentsParser parser;
 	private ArgumentsModel model;
 	private ArgumentsModelStringRenderer renderer;
-	private ValueIsDifferentFromDefaultValuePredicate predicate;
+	private ValueIsDifferentFromDefaultPredicate predicate;
 	private DefaultValues defaultValues;
 
 	@Before
@@ -23,7 +24,7 @@ public class BooleanPropertiesTest {
 		parser = new ArgumentsParser(model);
 		
 		defaultValues = new DefaultValues();
-		predicate = new ValueIsDifferentFromDefaultValuePredicate(defaultValues);
+		predicate = new ValueIsDifferentFromDefaultPredicate(defaultValues);
 		renderer = new FilteringArgumentsModelStringRenderer(model, predicate);
 	}
 

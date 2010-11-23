@@ -11,12 +11,12 @@ import java.util.List;
 public class FilteringArgumentsModelStringRenderer extends
 		ArgumentsModelStringRenderer {
 
-	private Predicate<Argument> includeInArguments;
+	private Predicate<Argument> includeInArgumentsPredicate;
 	
 	public FilteringArgumentsModelStringRenderer(ArgumentsModel model, Predicate<Argument> includeInArguments ) {
 		super(model);
 		
-		this.includeInArguments = includeInArguments;
+		this.includeInArgumentsPredicate = includeInArguments;
 	}
 	
 	protected List<Argument> getArguments()
@@ -24,7 +24,7 @@ public class FilteringArgumentsModelStringRenderer extends
 		List<Argument> result = new ArrayList<Argument>();
 		for( Argument arg : super.getArguments())
 		{
-			if( includeInArguments.eval( arg ))
+			if( includeInArgumentsPredicate.eval( arg ))
 			{
 				result.add( arg );
 			}
