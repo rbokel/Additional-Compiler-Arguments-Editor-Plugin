@@ -37,9 +37,9 @@ public class ArgumentsModelStringRenderer {
 	
 	protected String argToString(Argument arg) {
 		String prefix;
-		StringBuffer buf = new StringBuffer(arg.name);
-		if (arg.assignmentOperator != null) {
-			buf.append(arg.assignmentOperator);
+		StringBuffer buf = new StringBuffer(arg.getName());
+		if (arg.getAssignmentOperator() != null) {
+			buf.append(arg.getAssignmentOperator());
 			prefix = "";
 		} else {
 			prefix = " ";

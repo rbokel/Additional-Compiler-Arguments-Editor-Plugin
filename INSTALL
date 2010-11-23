@@ -4,7 +4,7 @@ Automatic installation via the Eclipse software manager:
 Update site: https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/raw/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/site.xml
 
 Manual installation
-Download the latest version of the plugin. You can find it in the distr folder. 
+Download the latest version of the plugin. You can find it here: https://github.com/rbokel/Additional-Compiler-Arguments-Editor-Plugin/tree/master/trunk/main/eclipse/AdditionalCompilerArgumentsEditorPluginUpdateSite/plugins/ 
 Close your Eclipse
 Drop the file into the plugin directory of your Eclipse installation 
 Start Eclipse 

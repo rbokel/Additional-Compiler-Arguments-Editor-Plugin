@@ -11,6 +11,9 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -26,6 +29,8 @@ import org.w3c.dom.NodeList;
 import de.bokelberg.flashbuilder.aca.utils.XMLUtil;
 
 public class FormEditor {
+
+	private static final int FORM_WIDTH = 600;
 
 	private FormElement[] elements;
 
@@ -66,6 +71,20 @@ public class FormEditor {
 	 */
 	public void setFormChangeHandler(FormChangeHandler value) {
 		formChangeHandler = value;
+	}
+
+	/**
+	 * parse the additional compiler arguments string and initalise the form
+	 * elements
+	 */
+	public void updateFromString(String source) {
+		try {
+			ArgumentsParser parser = new ArgumentsParser(model);
+			parser.parse(source);
+			updateFormElements();
+		} catch (DOMException e) {
+			throw new RuntimeException("Error while updating from string.", e);
+		}
 	}
 
 	private FormElement[] loadElementsConfiguration(URL elementsConfiguration) {
@@ -109,8 +128,7 @@ public class FormEditor {
 		String id = getAttribute(node, "id");
 		String label = getAttribute(node, "label");
 		String tooltip = getAttribute(node, "tooltip");
-		String defaultValue = getOptionalAttribute(node, "defaultValue", null);
-		return new FormElement(type, id, label, tooltip, defaultValue);
+		return new FormElement(type, id, label, tooltip);
 	}
 
 	private String getAttribute(Node node, String id) {
@@ -144,10 +162,10 @@ public class FormEditor {
 
 	private Composite createView(Composite container) {
 		ScrolledComposite scrollableContainer = createScrollableContainer(container);
-		Composite form = addForm(scrollableContainer);
+		Composite form = createForm(scrollableContainer);
 		scrollableContainer.setContent(form);
 		int asMuchHeightAsItNeeds = SWT.DEFAULT;
-		form.setSize(form.computeSize(500, asMuchHeightAsItNeeds));
+		form.setSize(form.computeSize(FORM_WIDTH, asMuchHeightAsItNeeds));
 		return scrollableContainer;
 	}
 
@@ -157,16 +175,21 @@ public class FormEditor {
 		return result;
 	}
 
-	private Composite addForm(Composite container) {
+	private Composite createForm(Composite container) {
 		Composite form = createFormContainer(container);
 
 		for (FormElement element : elements) {
 
 			if (element.type.equals("checkbox")) {
-				addCheckBox(form, element);
-
+				addOnOffInput(form, element);
 			} else if (element.type.equals("string")) {
-				addTextInput(form, element);
+				addSingleStringInput(form, element);
+			} else if (element.type.equals("strings")) {
+				addMultipleStringsInput(form, element);
+			} else {
+				log().error(
+						"Unexpected type of form element <" + element.type
+								+ ">");
 			}
 		}
 		return form;
@@ -174,43 +197,132 @@ public class FormEditor {
 
 	private Composite createFormContainer(Composite container) {
 		Composite composite = new Composite(container, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		GridLayout layout = new GridLayout(2, false);
 		composite.setLayout(layout);
-		layout.numColumns = 2;
 		return composite;
 	}
 
-	private void addTextInput(Composite composite, FormElement element) {
+	private void addOnOffInput(Composite composite, FormElement element) {
+		addLabel(composite, element);
+		addCheckbox(composite, element);
+	}
+
+	private void addSingleStringInput(Composite composite, FormElement element) {
+		addLabel(composite, element);
+		addText(composite, element);
+	}
+
+	private void addMultipleStringsInput(Composite composite,
+			FormElement element) {
+		Composite sub = new Composite(composite, SWT.NONE);
+		sub.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		FormLayout layout = new FormLayout();
+		sub.setLayout(layout);
+
+		addLabel(sub, element);
+		addAppendCheckbox(sub, element);
+
+		addText(composite, element);
+	}
+
+	private void addLabel(Composite composite, FormElement element) {
 		Label label = new Label(composite, SWT.NULL);
 		label.setText(element.label);
 		label.setToolTipText(element.tooltip);
-		Text text = new Text(composite, SWT.BORDER);
-		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		text.setData(element);
-		idToFormElement.put(element.id, text);
-		text.addFocusListener(new FocusListener() {
+	}
+
+	private void addCheckbox(Composite composite, FormElement element) {
+		Button checkboxWidget = new Button(composite, SWT.CHECK);
+		checkboxWidget.setData(element);
+		checkboxWidget.setSelection(defaultValues.hasDefaultValue(element.id)
+				&& defaultValues.getDefaultValue(element.id).equals("true"));
+		idToFormElement.put(element.id, checkboxWidget);
+		checkboxWidget.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					Button checkboxWidget = (Button) event.widget;
+					FormElement element = (FormElement) checkboxWidget
+							.getData();
+					updateModel(checkboxWidget, element);
+				} catch (Exception e) {
+					log().error(e.getMessage(), e);
+					// don't rethrow as it gets sucked up
+				}
+			}
+
+			private void updateModel(Button checkboxWidget, FormElement element) {
+				model.updateBoolean(element.id, checkboxWidget.getSelection());
+				notifyUpdate();
+			}
+
+		});
+	}
+
+	private void addAppendCheckbox(Composite composite, FormElement element) {
+		Button checkboxWidget = new Button(composite, SWT.CHECK);
+		checkboxWidget.setText("append");
+		checkboxWidget.setData(element);
+		checkboxWidget
+				.setToolTipText("values are appended to existing values which might have ben loaded earlier.");
+		FormData formData = new FormData();
+		formData.right = new FormAttachment(100, 5);
+		checkboxWidget.setLayoutData(formData);
+		idToFormElement.put(getAppendId(element.id), checkboxWidget);
+		checkboxWidget.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					Button checkbox = (Button) event.widget;
+					FormElement element = (FormElement) checkbox.getData();
+					updateModel(checkbox, element);
+				} catch (Exception e) {
+					log().error(e.getMessage(), e);
+				}
+			}
+
+			private void updateModel(Button checkbox, FormElement element) {
+				model.updateAssignmentOperator(element.id, checkbox
+						.getSelection());
+				notifyUpdate();
+			}
+		});
+	}
+
+	private void addText(Composite composite, FormElement element) {
+		Text textWidget = new Text(composite, SWT.BORDER);
+		textWidget.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		textWidget.setData(element);
+		if (defaultValues.hasDefaultValue(element.id)) {
+			textWidget.setText(defaultValues.getDefaultValue(element.id) + "");
+		}
+		idToFormElement.put(element.id, textWidget);
+		textWidget.addFocusListener(new FocusListener() {
 
 			private String oldValue;
 
 			public void focusLost(FocusEvent event) {
 				try {
-					Text widget = (Text) event.widget;
-					String newValue = widget.getText();
-					if (!oldValue.equals(newValue)) {
-						FormElement element = (FormElement) widget.getData();
-						model.updateString(element.id, newValue);
-						notifyUpdate();
-					}
+					Text textWidget = (Text) event.widget;
+					FormElement element = (FormElement) textWidget.getData();
+					updateModel(textWidget, element);
 				} catch (Exception e) {
 					log().error(e.getMessage(), e);
 				}
+			}
 
+			private void updateModel(Text textWidget, FormElement element) {
+				String newValue = textWidget.getText();
+				if (!oldValue.equals(newValue)) {
+
+					model.updateString(element.id, newValue);
+					notifyUpdate();
+				}
 			}
 
 			public void focusGained(FocusEvent event) {
 				try {
-					Text widget = (Text) event.widget;
-					oldValue = widget.getText();
+					Text textWidget = (Text) event.widget;
+					oldValue = textWidget.getText();
 					if (oldValue == null) {
 						oldValue = "";
 					}
@@ -221,80 +333,56 @@ public class FormEditor {
 		});
 	}
 
-	private void addCheckBox(Composite composite, FormElement element) {
-		Label label = new Label(composite, SWT.NULL);
-		label.setText(element.label);
-		label.setToolTipText(element.tooltip);
-		Button checkbox = new Button(composite, SWT.CHECK);
-		checkbox.setData(element);
-		checkbox.setSelection(element.defaultValue != null
-				&& element.defaultValue.equals("true"));
-		idToFormElement.put(element.id, checkbox);
-		checkbox.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					Button checkbox = (Button) event.widget;
-					// log().debug("widgetSelected <" + checkbox + ">");
-					FormElement element = (FormElement) checkbox.getData();
-					// log().debug("widgetSelected <" + element.id + ">");
-					model.updateBoolean(element.id, checkbox.getSelection());
-					// log().debug("widgetSelected <" + model.getString() +
-					// ">");
-					notifyUpdate();
-					// log().debug("widgetSelected end");
-				} catch (Exception e) {
-					log().error(e.getMessage(), e);
-				}
-			}
-		});
-	}
-
-	/**
-	 * parse the additional compiler arguments string and initalise the form
-	 * elements
-	 */
-	public void updateFromString(String source) {
-		try {
-			ArgumentsParser parser = new ArgumentsParser(model);
-			parser.parse(source);
-			updateFormElements();
-		} catch (DOMException e) {
-			throw new RuntimeException("Error while updating from string.", e);
-		}
-	}
-
 	private void updateFormElements() {
-		for (Argument arg : model.arguments) {
-			String id = arg.name;
+		for (Argument arg : model.getArguments()) {
+			String id = arg.getName();
 			log().debug("updateFormElements <" + id + ">");
 			FormElement element = findElement(id);
 			if (element == null) {
 				// ignore
-				log().debug("element not found, id <" + id + ">");
+				log().warn("element not found, id <" + id + ">");
 			} else {
 				if (element.type.equals("checkbox")) {
-					updateCheckBox(arg, id);
+					updateOnOffInput(arg, id);
 				} else if (element.type.equals("string")) {
-					updateTextInput(arg, id);
+					updateSingleStringInput(arg, id);
+				} else if (element.type.equals("strings")) {
+					updateMultipleStringsInput(arg, id);
+				} else {
+					throw new RuntimeException(
+							"updateFormElements: Unexpected element type <"
+									+ element.type + "> id <" + id + ">");
 				}
 			}
 		}
 	}
 
-	private void updateTextInput(Argument arg, String id) {
-		Text widget = (Text) idToFormElement.get(id);
-		if (arg.values != null && arg.values.size() > 0) {
-			String value = arg.values.get(0);
-			if (value != null) {
-				widget.setText(value);
-			}
+	private void updateSingleStringInput(Argument arg, String id) {
+		Text textWidget = (Text) idToFormElement.get(id);
+		Object value = arg.getValue();
+		if (value != null) {
+			textWidget.setText(value + "");
 		}
 	}
 
-	private void updateCheckBox(Argument arg, String id) {
-		Button widget = (Button) idToFormElement.get(id);
-		widget.setSelection(arg.values == null
-				|| arg.values.get(0).equals("true"));
+	private void updateMultipleStringsInput(Argument arg, String id) {
+		updateSingleStringInput(arg, id);
+		Button checkboxWidget = (Button) idToFormElement.get(getAppendId(id));
+		String assignmentOperator = arg.getAssignmentOperator();
+		boolean selected = assignmentOperator != null
+				&& assignmentOperator.equals("+=");
+		checkboxWidget.setSelection(selected);
+	}
+
+	private void updateOnOffInput(Argument arg, String id) {
+		Button checkboxWidget = (Button) idToFormElement.get(id);
+		Object value = arg.getValue();
+		boolean selected = value != null && ((String) value).equals("true");
+		checkboxWidget.setSelection(selected);
+	}
+
+	private String getAppendId(String id) {
+		return id + "_append";
 	}
 
 	private FormElement findElement(String id) {
@@ -303,6 +391,7 @@ public class FormEditor {
 				return element;
 			}
 		}
+		// ignore elements that we can not find
 		return null;
 	}
 
@@ -318,8 +407,10 @@ public class FormEditor {
 	 * @return
 	 */
 	private String getFormSettings() {
-		ValueIsDifferentFromDefaultValuePredicate predicate = new ValueIsDifferentFromDefaultValuePredicate(defaultValues);
-		String result = new FilteringArgumentsModelStringRenderer(model, predicate).render();
+		Predicate<Argument> predicate = new ValueIsDifferentFromDefaultValuePredicate(
+				defaultValues);
+		String result = new FilteringArgumentsModelStringRenderer(model,
+				predicate).render();
 		log().debug("getFormSettings <" + result + ">");
 		return result;
 	}
@@ -342,15 +433,12 @@ public class FormEditor {
 		public String tooltip;
 		public String id;
 		public String type;
-		public String defaultValue;
 
-		public FormElement(String type, String id, String label,
-				String tooltip, String defaultValue) {
+		public FormElement(String type, String id, String label, String tooltip) {
 			this.type = type;
 			this.id = id;
 			this.label = label;
 			this.tooltip = tooltip;
-			this.defaultValue = defaultValue;
 		}
 	}
 

@@ -16,7 +16,7 @@ public class ValueIsDifferentFromDefaultValuePredicate extends
 	}
 
 	public boolean eval(Argument arg) {
-		String id = arg.name;
+		String id = arg.getName();
 		return !hasDefaultValue(id) || !defaultValue(id).equals(getValue(arg));
 	}
 

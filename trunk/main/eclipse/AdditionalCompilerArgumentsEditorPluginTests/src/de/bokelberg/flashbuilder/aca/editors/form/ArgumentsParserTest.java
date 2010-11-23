@@ -32,15 +32,14 @@ public class ArgumentsParserTest {
 	{
 		String input = "-option";
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( input, arg.name );
-		assertNull( arg.assignmentOperator );
+		assertEquals( input, arg.getName() );
 		assertNull( arg.values );
 	}
 
@@ -51,15 +50,14 @@ public class ArgumentsParserTest {
 		String expectedValue = "one";
 		String input = expectedOption + " " + expectedValue;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertNull( arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
 		assertNotNull( arg.values );
 		assertEquals( 1, arg.values.size());
 		assertEquals( expectedValue, arg.values.get(0));
@@ -72,15 +70,14 @@ public class ArgumentsParserTest {
 		String expectedValues = "one two three";
 		String input = expectedOption + " " + expectedValues;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertNull( arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
 		assertNotNull( arg.values );
 		assertEquals( 3, arg.values.size());
 		assertEquals( "one", arg.values.get(0));
@@ -95,15 +92,14 @@ public class ArgumentsParserTest {
 		String expectedValues = "one";
 		String input = expectedOption + " " + expectedValues;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertNull( arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
 		assertNotNull( arg.values );
 		assertEquals( 1, arg.values.size());
 		assertEquals( expectedValues, arg.values.get(0));
@@ -116,15 +112,14 @@ public class ArgumentsParserTest {
 		String expectedValues = "one two three";
 		String input = expectedOption + " " + "\"" + expectedValues + "\"";
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertNull( arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
 		assertNotNull( arg.values );
 		assertEquals( 1, arg.values.size());
 		assertEquals( expectedValues, arg.values.get(0));
@@ -138,15 +133,15 @@ public class ArgumentsParserTest {
 		String expectedValues = "one";
 		String input = expectedOption + expectedAssignment + expectedValues;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertEquals( expectedAssignment, arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
+		assertEquals( expectedAssignment, arg.getAssignmentOperator() );
 		assertNotNull( arg.values );
 		assertEquals( 1, arg.values.size());
 		assertEquals( expectedValues, arg.values.get(0));
@@ -160,15 +155,15 @@ public class ArgumentsParserTest {
 		String expectedValues = "one";
 		String input = expectedOption + expectedAssignment + expectedValues;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 1, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption, arg.name );
-		assertEquals( expectedAssignment, arg.assignmentOperator );
+		assertEquals( expectedOption, arg.getName() );
+		assertEquals( expectedAssignment, arg.getAssignmentOperator() );
 		assertNotNull( arg.values );
 		assertEquals( 1, arg.values.size());
 		assertEquals( expectedValues, arg.values.get(0));
@@ -181,18 +176,18 @@ public class ArgumentsParserTest {
 		String expectedOption2 = "-option2";
 		String input = expectedOption1 + " " + expectedOption2;
 		parser.parse(input);
-		List<Argument> result = model.arguments;
+		List<Argument> result = model.getArguments();
 		
 		assertNotNull( result );
 		assertEquals( 2, result.size());
 		
 		Argument arg = result.get(0);
 		assertNotNull( arg );
-		assertEquals( expectedOption1, arg.name );
+		assertEquals( expectedOption1, arg.getName() );
 		
 		arg = result.get(1);
 		assertNotNull( arg );
-		assertEquals( expectedOption2, arg.name );
+		assertEquals( expectedOption2, arg.getName() );
 		
 	}
 }

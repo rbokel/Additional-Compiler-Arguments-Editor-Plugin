@@ -4,6 +4,7 @@
     <form-element type="checkbox" id="-allow-source-path-overlap" 	label="Allow soure path overlap" tooltip="checks if a source-path entry is a subdirectory of another source-path entry. It helps make the package names of MXML components unambiguous." defaultValue="false"/>     	
     <form-element type="string"   id="-context-root" 				label="ContextRoot" tooltip="path to replace {context.root} tokens for service channel endpoints"/>
 	<form-element type="checkbox" id="-debug" 						label="Debug" tooltip="generates a movie that is suitable for debugging" defaultValue="true"/>
+    <form-element type="strings"  id="-default-css-files"			label="DefaultCssFiles" tooltip="path to replace {context.root} tokens for service channel endpoints"/>
     <form-element type="checkbox" id="-flash-type" 					label="FlashType" tooltip="enables FlashType for embedded fonts, which provides greater clarity for small fonts."/>
     <form-element type="checkbox" id="-incremental" 				label="Incremental" tooltip="enables incremental compilation."/>
 	<form-element type="checkbox" id="-isolate-styles" 				label="Isolate styles" tooltip="enables the compiled application or module to set styles that only affect itself and its children."/>

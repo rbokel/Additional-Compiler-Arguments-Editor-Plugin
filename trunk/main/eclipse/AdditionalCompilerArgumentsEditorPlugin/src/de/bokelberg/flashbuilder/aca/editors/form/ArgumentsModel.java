@@ -10,39 +10,36 @@ import de.bokelberg.flashbuilder.aca.utils.StringUtil;
 
 public class ArgumentsModel {
 
-	public List<Argument> arguments = new ArrayList<Argument>();
+	private List<Argument> arguments = new ArrayList<Argument>();
 
 	
-	public void updateBoolean(String id, boolean value, String assignmentOperator ) {
-		debug("updateBoolean <" + id + "><" + assignmentOperator + "><" + value + ">");
+	public void updateBoolean(String id, boolean value) {
+		debug("updateBoolean <" + id + "><" + value + ">");
 		Argument arg = addArg(id);
 		arg.setValue(value + "");
-		arg.assignmentOperator=assignmentOperator;
 	}
 	
-	public void updateBoolean(String id, boolean value) {
-		updateBoolean(id, value, "=");
-	}
-	
-	public void updateString(String id, String value, String assignmentOperator) {
-		debug("updateString <" + id + "><" + assignmentOperator + "><" + value + ">");
+	public void updateString(String id, String value) {
+		debug("updateString <" + id + "><" + value + ">");
 		Argument arg = addArg(id);
-		arg.assignmentOperator = assignmentOperator;
 		arg.setValue( StringUtil.removeOptionalQuotes( value ));
 	}
 
-	public void updateString(String id, String text) {
-		updateString( id, text, "=");
+	public void updateAssignmentOperator(String id, boolean append) {
+		debug("updateAssignmentOperator <" + id + "><" + append + ">");
+		Argument arg = addArg(id);
+		arg.setAssignmentOperator(append ? "+=" : "=");
 	}
-
 
 	public Argument addArg(String id) {
 		debug("addArg <" + id + ">");
 		Argument arg = findArg(id);
 		if (arg == null) {
 			arg = new Argument();
-			arg.name = id;
+			arg.setName(id);
+			arg.setAssignmentOperator("="); //TODO Do we really need this? 
 			arguments.add( arg );
+			
 			debug("addArg added new arg");
 		}
 		return arg;
@@ -54,12 +51,13 @@ public class ArgumentsModel {
 	}
 	
 	public List<Argument> getArguments() {
+		debug("getArguments size <" + arguments.size() + ">");
 		return arguments;
 	}
 
 	private Argument findArg(String id) {
 		for (Argument arg : arguments) {
-			if (arg != null && arg.name != null && arg.name.equals(id)) {
+			if (arg != null && arg.getName() != null && arg.getName().equals(id)) {
 				return arg;
 			}
 		}
@@ -75,6 +73,5 @@ public class ArgumentsModel {
 		}
 		log.debug(msg);
 	}
-
 
 }

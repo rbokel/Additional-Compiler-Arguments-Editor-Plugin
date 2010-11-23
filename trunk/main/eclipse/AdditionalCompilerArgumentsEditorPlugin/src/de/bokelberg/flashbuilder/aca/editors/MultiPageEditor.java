@@ -58,11 +58,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	/**
 	 * Creates page 0 of the multi-page editor, which contains a xml editor.
 	 */
-	void createPage0() {
+	private void createPage0() {
 		try {
 			xmlEditor = new XMLEditor();
 			int index = addPage(xmlEditor, getEditorInput());
 			setPageText(index, xmlEditor.getTitle());
+			setPartName(xmlEditor.getTitle());
 		} catch (PartInitException e) {
 			ErrorDialog.openError(getSite().getShell(),
 					"Error creating nested xml editor", null, e.getStatus());
@@ -72,7 +73,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	/**
 	 * Creates page 1 of the multi-page editor, which contains a form editor.
 	 */
-	void createPage1() {
+	private void createPage1() {
 		URL elementsConfiguration = getElementsConfiguration();
 		formEditor = new FormEditor(getContainer(), elementsConfiguration);
 		formEditor.setFormChangeHandler(new FormChangeHandler() {

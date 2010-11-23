@@ -67,12 +67,12 @@ public class ArgumentsParser implements Parser {
 				continue;
 			}
 			if (tokEquals(token, "=")) {
-				arg.assignmentOperator = "=";
+				arg.setAssignmentOperator("=");
 				token = sc.nextToken();
 			} else if (tokEquals(token, "+")) {
 				token = sc.nextToken();
 				if (tokEquals(token, "=")) {
-					arg.assignmentOperator = "+=";
+					arg.setAssignmentOperator("+=");
 					token = sc.nextToken();
 				} else {
 					throw new RuntimeException("= expected, got <" + token
