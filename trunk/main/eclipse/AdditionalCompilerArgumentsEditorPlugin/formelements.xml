@@ -2,25 +2,56 @@
 <elements>
     <form-element type="checkbox" id="-advanced-anti-aliasing" 		label="Advanced antialiasing" tooltip="enables advanced anti-aliasing for embedded fonts, which provides greater clarity for small fonts."/>     	
     <form-element type="checkbox" id="-allow-source-path-overlap" 	label="Allow soure path overlap" tooltip="checks if a source-path entry is a subdirectory of another source-path entry. It helps make the package names of MXML components unambiguous." defaultValue="false"/>     	
+    <form-element type="string"   id="-compatibility-version" 		label="Compatibility version" tooltip="specifies a mxml compatibility version. e.g. -compatibility-version=2.0.1"/>
+	<form-element type="checkbox" id="-compute-digest" 				label="Compute digest (swc only)" tooltip="writes a digest to the catalog.xml of a library. This is required when the library will be used in the -runtime-shared-libraries-path option." defaultValue="false" category="swc"/>
     <form-element type="string"   id="-context-root" 				label="ContextRoot" tooltip="path to replace {context.root} tokens for service channel endpoints"/>
 	<form-element type="checkbox" id="-debug" 						label="Debug" tooltip="generates a movie that is suitable for debugging" defaultValue="true"/>
-    <form-element type="strings"  id="-default-css-files"			label="DefaultCssFiles" tooltip="path to replace {context.root} tokens for service channel endpoints"/>
+	<form-element type="string"   id="-debug-password" 				label="Debug password" tooltip="the password to include in debuggable SWFs"/>
+	<form-element type="string"   id="-default-background-color" 	label="Default background color" tooltip="default background color (may be overridden by the application code)." defaultValue="0xffffff"/>
+	<form-element type="string"   id="-default-frame-rate" 			label="Default frame rate" tooltip="default frame rate to be used in the SWF." defaultValue="24"/>
+    <form-element type="strings"  id="-defaults-css-files"			label="Defaults css files" tooltip=""/>
+    <form-element type="string"   id="-defaults-css-url"			label="Defaults css url" tooltip="defines the location of the default style sheet. Setting this option overrides the implicit use of the defaults.css style sheet in the framework.swc file."/>
+	<form-element type="checkbox" id="-directory"					label="Directory (swc only)" tooltip="output the library as an open directory instead of a SWC file." category="swc" defaultValue="false"/>
+    <form-element type="string"   id="-dump-config"					label="Dump config" tooltip="creates xml containing the complete compiler config"/>
+    <form-element type="strings"  id="-externs"						label="Externs" tooltip="a list of symbols to omit from linking when building a SWF."/>
     <form-element type="checkbox" id="-flash-type" 					label="FlashType" tooltip="enables FlashType for embedded fonts, which provides greater clarity for small fonts."/>
+    <form-element type="string"   id="-framework" 					label="Framework" tooltip="" defaultValue="halo"/>
+    <form-element type="checkbox" id="-headless-server" 			label="Headless server" tooltip="a flag to set when Flex is running on a server without a display."/>
+	<form-element type="strings"  id="-include-classes"				label="Include classes" tooltip="a list of classes to include in the output SWC."/>
+    <form-element type="strings"  id="-include-libraries"			label="Include libraries" tooltip="a list of libraries (SWCs) to completely include in the SWF."/>
+    <form-element type="checkbox" id="-include-lookup-only"			label="Include lookup only" tooltip="if true, manifest entries with lookupOnly=true are included in SWC catalog. Default is false." defaultValue="false"/>
+    <form-element type="strings"  id="-include-namespaces"			label="Include namespaces" tooltip="all classes in the listed namespaces are included in the output SWC."/>
+    <form-element type="strings"  id="-include-resource-bundles"	label="Include resource bundles" tooltip="a list of resource bundles to include in the output SWC."/>
+    <form-element type="strings"  id="-include-sources"				label="Include sources" tooltip="a list of directories and source files to include in the output SWC."/>
+    <form-element type="strings"  id="-includes"					label="Includes" tooltip="a list of symbols to always link in when building a SWF."/>
     <form-element type="checkbox" id="-incremental" 				label="Incremental" tooltip="enables incremental compilation."/>
 	<form-element type="checkbox" id="-isolate-styles" 				label="Isolate styles" tooltip="enables the compiled application or module to set styles that only affect itself and its children."/>
 	<form-element type="checkbox" id="-keep-all-type-selectors" 	label="Keep all type selectors" tooltip="disables the pruning of unused CSS type selectors."/>
+	<form-element type="strings"  id="-keep-as3-metadata" 			label="Keep as3 metadata" tooltip="keep the specified metadata in the SWF."/>
 	<form-element type="checkbox" id="-keep-generated-actionscript" label="Keep generated ActionScript" tooltip="save temporary source files generated during MXML compilation."/>
    	<form-element type="string"   id="-link-report" 				label="Link report" tooltip="Output a XML-formatted report of all definitions linked into the application."/>
+	<form-element type="string"   id="-load-config" 				label="Load config" tooltip="load a file containing configuration options."/>
 	<form-element type="string"   id="-load-externs" 				label="Load externs" tooltip="an XML file containing def, pre, and ext symbols to omit from linking when building a SWF."/>   
+    <form-element type="string"   id="-local-font-paths" 			label="Local font paths" tooltip=""/>
     <form-element type="string"   id="-local-fonts-snapshot" 		label="Local font snapshot" tooltip="File containing system font data produced by flex2.tools.FontSnapshot." defaultValue="${flexlib}/winFonts.ser"/>
+	<form-element type="strings"  id="-managers" 					label="Font managers" tooltip="Compiler font manager classes, in policy resolution order"/>
     <form-element type="string"   id="-max-cached-fonts" 			label="Max cached fonts" tooltip="sets the maximum number of fonts to keep in the server cache.  The default value is 20." defaultValue="20"/>
     <form-element type="string"   id="-max-glyphs-per-face" 		label="Max glyphs per face" tooltip="sets the maximum number of character glyph-outlines to keep in the server cache for each font face. The default value is 1000." defaultValue="1000"/>
+    <form-element type="string"   id="-contributor" 				label="Metadata contributor" tooltip="a creator's name to store in the SWF metadata" defaultValue="unknown" category="metadata"/>
+    <form-element type="string"   id="-date" 						label="Metadata date" tooltip="The creation date to store in the SWF metadata" category="metadata"/>
+    <form-element type="string"   id="-description" 				label="Metadata description" tooltip="The default description to store in the SWF metadata." category="metadata" defaultValue="http://www.adobe.com/products/flex"/>
+    <form-element type="string"   id="-language" 					label="Metadata language" tooltip="The language to store in the SWF metadata (i.e. EN, FR)." category="metadata" defaultValue="EN"/>
+    <form-element type="string"   id="-publisher" 					label="Metadata publisher" tooltip="A publisher's name to store in the SWF metadata." category="metadata" defaultValue="unknown"/>
+    <form-element type="string"   id="-title" 						label="Metadata title" tooltip="The default title to store in the SWF metadata." category="metadata" defaultValue="Adobe Flex 4 Application"/>
     <form-element type="string"   id="-minimum-supported-version" 	label="Minimum supported version" tooltip=""/>
 	<form-element type="checkbox" id="-omit-trace-statements" 		label="Omit trace statements" tooltip="toggle whether trace statements are omitted."/>
+	<form-element type="string"   id="-output" 						label="Output" tooltip="the filename of the SWF movie to create"/>
 	<form-element type="checkbox" id="-optimize" 					label="Optimize" tooltip="Enable post-link SWF optimization"/>
+	<form-element type="checkbox" id="-qualified-type-selectors"	label="Qualified type selectors" tooltip=""/>
     <form-element type="string"   id="-raw-metadata" 				label="Raw metadata" tooltip="XML text to store in the SWF metadata (overrides metadata.* configuration)"/>
     <form-element type="string"   id="-resource-bundle-list" 		label="Resource bundle list" tooltip="prints a list of resource bundles to a file for input to the compc compiler to create a resource bundle SWC file."/>
  	<form-element type="checkbox" id="-report-invalid-styles-as-warnings" label="Report invalid styles" tooltip="enables reporting of invalid styles as warnings."/>
+ 	<form-element type="strings"  id="-runtime-shared-libraries"    label="Runtime shared libraries" tooltip="a list of runtime shared library URLs to be loaded before the application starts."/>
     <form-element type="string"   id="-services" 					label="Services" tooltip="Path to Flex Data Services configuration file"/>
  	<form-element type="checkbox" id="-show-actionscript-warnings" 	label="Show ActionScript warnings" tooltip="runs the AS3 compiler in a mode that detects legal but potentially incorrect code" defaultValue="true"/>
 	<form-element type="checkbox" id="-show-binding-warnings" 		label="Show binding warnings" tooltip="toggle whether warnings generated from data binding code are displayed" defaultValue="true"/>
@@ -28,10 +59,13 @@
     <form-element type="checkbox" id="-show-shadowed-device-font-warnings" label="Show shadowed device font warnings" tooltip="toggles whether warnings are displayed when an embedded font name shadows a device font name"/>
     <form-element type="checkbox" id="-show-unused-type-selector-warnings" label="Show unused type selector warnings" tooltip="toggle whether warnings generated from unused CSS type selectors are displayed"/>
     <form-element type="checkbox" id="-static-link-runtime-shared-libraries" label="Static link RSLs" tooltip="statically link the libraries specified by the -runtime-shared-libraries-path option."/>
+	<form-element type="string"   id="-target-player" 				label="Target player" tooltip="specifies the version of the player the application is targeting. Features requiring a later version will not be compiled into the application. The minimum value supported is 9.0.0."/>
+	<form-element type="string"   id="-theme" 						label="Theme" tooltip="list of CSS or SWC files to apply as a theme."/>
 	<form-element type="string"   id="-tools-locale" 				label="Tools locale" tooltip="specifies the locale used by the compiler when reporting errors and warnings."/>
     <form-element type="checkbox" id="-use-network" 				label="Use network" tooltip="toggle whether the SWF is flagged for access to network resources."/>
     <form-element type="checkbox" id="-use-resource-bundle-metadata" label="Use resource bundle metadata" tooltip="determines whether resources bundles are included in the application."/>
     <form-element type="checkbox" id="-verbose-stacktraces" 		label="Verbose stacktraces" tooltip="save callstack information to the SWF for debugging."/>
+    <form-element type="checkbox" id="-verify-digest" 				label="Verify digest" tooltip="verifies the libraries loaded at runtime are the correct ones." defaultValue="false"/>
     <form-element type="checkbox" id="-version" 					label="Version" tooltip="display the build version of the program."/>
     <form-element type="checkbox" id="-warn-array-tostring-changes" label="Warn array toString changes" tooltip="Array.toString() format has changed."/>
     <form-element type="checkbox" id="-warn-assignment-within-conditional" label="Warn assignment within conditional" tooltip="Assignment within conditional." defaultValue="true"/>
@@ -69,4 +103,5 @@
     <form-element type="checkbox" id="-warn-slow-text-field-addition" label="Warn slow text field addition" tooltip="Inefficient use of += on a TextField." defaultValue="true"/>
     <form-element type="checkbox" id="-warn-unlikely-function-value" label="Warn unlikely function value" tooltip="Possible missing parentheses." defaultValue="true"/>
     <form-element type="checkbox" id="-warn-xml-class-has-changed" 	label="Warn xml class has changed" tooltip="Possible usage of the ActionScript 2.0 XML class."/>
+    <form-element type="checkbox" id="-warnings" 					label="Warnings" tooltip="toggle the display of warnings" defaultValue="true"/>
 </elements>

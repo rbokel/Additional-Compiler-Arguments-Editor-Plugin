@@ -11,10 +11,18 @@ Todo
 -----
 1. Implement more complex content types, multi strings etc. 
 2. Implement export to additional_compiler_arguments.xml 
+3. Find out how to implement a flat looking graphical button like in the eclipse toolbars.
+4. Some properties have a fixed number of arguments. E.g. -define has two. Need to implement those. 
 
 
 History 
 -------
+`2010/11/24` Added much more of the available options. Now you can use properties with multiple strings.  
+At the moment they are edited in a single text field. Add a comma to separate the strings. The app 
+automatically adds quotes to the resulting string, if one of the strings contains whitespace. 
+Changed the append checkbox to a toggle button. I need to find out, how these graphical buttons work. 
+That would look much better.  
+ 
 `2010/11/23` Switched to Eclipse forms toolkit. Added Signal/Slots for event handling. Factored 
 out some functionality of the FormEditor to other classes, eg. WidgetLocator, FormElementConfig, 
 FormElementList.   

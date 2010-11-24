@@ -25,8 +25,6 @@ import org.w3c.dom.Node;
 import de.bokelberg.flashbuilder.aca.Activator;
 import de.bokelberg.flashbuilder.aca.Configuration;
 import de.bokelberg.flashbuilder.aca.editors.form.FormEditor;
-import de.bokelberg.flashbuilder.aca.editors.form.FormEditorNew;
-import de.bokelberg.flashbuilder.aca.editors.form.FormView;
 import de.bokelberg.flashbuilder.aca.editors.xml.XMLEditor;
 import de.bokelberg.flashbuilder.aca.signals.Slot;
 import de.bokelberg.flashbuilder.aca.utils.XMLUtil;
@@ -47,7 +45,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	private XMLEditor xmlEditor;
 
 	/** The form editor used in page 1. */
-	private FormEditorNew formEditor;
+	private FormEditor formEditor;
 
 	/**
 	 * Creates a multi-page editor example.
@@ -77,7 +75,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements
 	 */
 	private void createPage1() {
 		URL elementsConfiguration = getElementsConfiguration();
-		formEditor = new FormEditorNew( elementsConfiguration);
+		formEditor = new FormEditor( elementsConfiguration);
 		formEditor.createPartControl(getContainer());
 		formEditor.formChangeSignal.addSlot(new Slot<String>() {
 			

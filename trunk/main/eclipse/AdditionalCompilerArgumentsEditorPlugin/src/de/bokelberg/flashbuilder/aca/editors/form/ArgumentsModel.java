@@ -19,10 +19,21 @@ public class ArgumentsModel {
 		arg.setValue(value + "");
 	}
 	
-	public void updateString(String id, String value) {
-		debug("updateString <" + id + "><" + value + ">");
+	public void updateSingleString(String id, String value) {
+		debug("updateSingleString <" + id + "><" + value + ">");
 		Argument arg = addArg(id);
 		arg.setValue( StringUtil.removeOptionalQuotes( value ));
+	}
+
+	public void updateMultipleStrings(String id, String value) {
+		debug("updateMultipleStrings <" + id + "><" + value + ">");
+		Argument arg = addArg(id);
+		String[] parts = value.split(",");
+		arg.clearValues();
+		for( String part:parts)
+		{
+			arg.addValue( StringUtil.removeOptionalQuotes( part ));
+		}
 	}
 
 	public void updateAssignmentOperator(String id, boolean append) {

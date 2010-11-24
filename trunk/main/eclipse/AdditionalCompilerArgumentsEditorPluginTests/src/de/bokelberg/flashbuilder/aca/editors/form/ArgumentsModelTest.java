@@ -30,7 +30,7 @@ public class ArgumentsModelTest {
 	public void testUpdateString() {
 		String expectedId = "-test";
 		String expectedValue = "some value";
-		model.updateString( expectedId, expectedValue );
+		model.updateSingleString( expectedId, expectedValue );
 		String result = renderer.render();
 		assertEquals( expectedId + "=\"" + expectedValue + "\"", result);
 	}

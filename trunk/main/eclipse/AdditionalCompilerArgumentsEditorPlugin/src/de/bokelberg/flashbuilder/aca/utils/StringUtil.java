@@ -8,7 +8,7 @@ public class StringUtil {
 	}
 
 	public static String removeQuotes(String value) {
-		return value.substring(0, value.length() - 1);
+		return value.substring(1, value.length() - 1);
 	}
 
 	public static boolean isQuotedString(String value) {

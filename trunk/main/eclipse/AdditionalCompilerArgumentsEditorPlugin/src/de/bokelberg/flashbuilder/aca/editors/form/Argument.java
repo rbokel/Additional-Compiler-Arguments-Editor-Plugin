@@ -29,6 +29,16 @@ public class Argument {
 		return assignmentOperator;
 	}
 
+	public void clearValues() {
+		if (values == null) {
+			values = new ArrayList<String>();
+		}
+		else
+		{
+			values.clear();
+		}
+	}
+
 	public void addValue(String value) {
 		log().debug("addValue <" + value + ">");
 		if (values == null) {
@@ -39,7 +49,7 @@ public class Argument {
 
 	public void setValue(String value) {
 		log().debug("setValue <" + value + ">");
-		values = new ArrayList<String>();
+		clearValues();
 		values.add(value);
 	}
 
@@ -61,4 +71,5 @@ public class Argument {
 		}
 		return _log;
 	}
+
 }
